@@ -1,0 +1,45 @@
+# ==============================================================================
+# [SOTA Reproducibility Pipeline] Venv Setup & Explicit Dependency Management
+# Description: 가상환경 구축, 명시적 의존성 관리 및 모듈 경로(PYTHONPATH) 바인딩
+# ==============================================================================
+
+# 1. 생성해둔 프로젝트 루트 디렉토리로 이동 (경로는 본인 환경에 맞게 수정)
+#cd /경로/smart_warehouse_project
+
+# (검증) 현재 폴더 내에 src, data, configs 폴더가 있는지 확인
+ls -l
+
+# 2. 가상환경 생성 및 활성화
+python3 -m venv venv
+source venv/bin/activate
+
+# 3. 패키지 관리자 최신화
+pip install --upgrade pip
+
+# 4. [SOTA for 1st Place] 쓰레기 패키지를 배제한 명시적 requirements.txt 생성
+# 루트 디렉토리에 프로젝트 핵심 구동에 필요한 패키지만 깔끔하게 선언합니다.
+cat <<EOT > requirements.txt
+pandas
+numpy
+scikit-learn
+lightgbm
+# 향후 앙상블 확장을 위해 필요시 아래 주석을 해제하십시오.
+# xgboost
+# catboost
+# optuna
+EOT
+
+# 5. 정의된 요구사항 파일에 맞춰 설치 진행
+pip install -r requirements.txt
+
+# 6. [Anti-Leakage & Efficiency] 모듈 절대 경로 인식 (매우 중요)
+# 이 작업이 누락되면 src/train.py에서 src.features 모듈을 import할 수 없습니다.
+export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+
+# 7. 분리된 메인 파이프라인 실행
+python src/train.py
+
+# ---------------------------------------------------------
+# 작업 완료 후 환경 종료 시:
+# deactivate
+# ==============================================================================

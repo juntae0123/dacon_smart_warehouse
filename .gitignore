@@ -1,0 +1,23 @@
+# === Python & IDE (제외) ===
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+.vscode/
+.idea/
+.DS_Store
+
+# === Data (데이터 파일만 제외) ===
+# 원본 데이터와 중간 생성 데이터는 용량이 크고 보안 이슈가 있어 제외합니다.
+data/raw/*.csv
+data/processed/*.csv
+
+# === Submissions (제출 기록) ===
+# 기록용으로 최신 제출 파일 하나만 올리고 싶다면 아래처럼 설정 가능합니다.
+submissions/history/
+# !submissions/FINAL_ATTACK_SUB.csv  # 이 파일만 예외적으로 깃에 올리고 싶을 때 주석 해제
+
+# === Codes (명시적 포함) ===
+# .py 확장자를 가진 모든 코드는 깃허브에 업로드됩니다.
+*.py
+src/**/*.py

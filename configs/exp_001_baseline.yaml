@@ -1,0 +1,16 @@
+# [SOTA Config Example]
+# 모델 코드 변경 없이 이 파일만 수정하여 실험을 통제합니다.
+experiment_name: "exp_001_bottleneck_lgbm"
+seed: 42
+data:
+  target: "avg_delay_minutes_next_30m"
+  n_splits: 5
+model:
+  type: "lightgbm"
+  params:
+    learning_rate: 0.03
+    max_depth: 6
+features:
+  - "bottleneck_pressure_idx"
+  - "battery_drain_risk"
+  - "congestion_score_roll3_mean"
